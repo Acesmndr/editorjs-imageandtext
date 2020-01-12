@@ -1,0 +1,43 @@
+{
+  "name": "@editorjs/imageandtext",
+  "version": "2.0.1",
+  "description": "Side by side image and text for Editor.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development --watch"
+  },
+  "author": {
+    "name": "acesmndr",
+    "email": "acesmndr@gmail.com"
+  },
+  "main": "./dist/bundle.js",
+  "keywords": [
+    "redactor",
+    "codex editor",
+    "image",
+    "text",
+    "tool",
+    "editor.js",
+    "editorjs"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "@codexteam/ajax": "^4.0.1",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.1.0",
+    "eslint": "^6.1.0",
+    "eslint-config-codex": "github:codex-team/eslint-config",
+    "eslint-loader": "^2.2.1",
+    "file-loader": "^4.1.0",
+    "formidable": "^1.2.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-nested": "^4.1.2",
+    "request": "^2.88.0",
+    "style-loader": "^0.23.1",
+    "svg-inline-loader": "^0.8.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
