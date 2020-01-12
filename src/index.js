@@ -10,7 +10,6 @@ const LOADER_DELAY = 500;
 /**
  * @typedef {object} PersonalityToolData
  * @description Personality Tool's input and output data format
- * @property {string} name — person's name
  * @property {string} description - person's description
  * @property {string} link - link to person's website
  * @property {string} photo - person's photo url
@@ -24,7 +23,6 @@ const LOADER_DELAY = 500;
  * @property {string} endpoints.byUrl - upload by URL
  * @property {string} field - field name for uploaded image
  * @property {string} types - available mime-types
- * @property {string} namePlaceholder - placeholder for name field
  * @property {string} descriptionPlaceholder - description placeholder
  * @property {string} linkPlaceholder - link placeholder
  * @property {object} additionalRequestData - any data to send with requests
@@ -58,9 +56,7 @@ export default class Personality {
 
     this.nodes = {
       wrapper: null,
-      name: null,
       description: null,
-      link: null,
       photo: null
     };
 
@@ -70,9 +66,7 @@ export default class Personality {
       additionalRequestHeaders: config.additionalRequestHeaders || {},
       field: config.field || 'image',
       types: config.types || 'image/*',
-      namePlaceholder: config.namePlaceholder || 'Name',
       descriptionPlaceholder: config.descriptionPlaceholder || 'Description',
-      linkPlaceholder: config.linkPlaceholder || 'Link',
       uploader: config.uploader || undefined
     };
 
@@ -100,7 +94,7 @@ export default class Personality {
   static get toolbox() {
     return {
       icon: ToolboxIcon,
-      title: 'Personality'
+      title: 'ImageAndText'
     };
   }
 
@@ -171,9 +165,7 @@ export default class Personality {
        * Tool's classes
        */
       wrapper: 'cdx-personality',
-      name: 'cdx-personality__name',
       photo: 'cdx-personality__photo',
-      link: 'cdx-personality__link',
       description: 'cdx-personality__description'
     };
   }
@@ -184,14 +176,10 @@ export default class Personality {
    * @return {PersonalityToolData}
    */
   save(toolsContent) {
-    const link = toolsContent.querySelector(`.${this.CSS.link}`).textContent;
-    const name = toolsContent.querySelector(`.${this.CSS.name}`).textContent;
     const description = toolsContent.querySelector(`.${this.CSS.description}`).textContent;
 
     Object.assign(this.data, {
-      name: name || this._data.name,
       description: description || this._data.description,
-      link: link || this._data.link
     });
 
     return this.data;
@@ -203,9 +191,7 @@ export default class Personality {
    */
   set data({ name, description, link, photo }) {
     this._data = Object.assign({}, {
-      name: name || this._data.name,
       description: description || this._data.description,
-      link: link || this._data.link,
       photo: photo || this._data.photo
     });
   }
@@ -223,19 +209,11 @@ export default class Personality {
    * @return {HTMLDivElement}
    */
   render() {
-    const { name, description, photo, link } = this.data;
+    const { description, photo } = this.data;
 
     this.nodes.wrapper = this.make('div', this.CSS.wrapper);
 
-    this.nodes.name = this.make('div', this.CSS.name, {
-      contentEditable: true
-    });
-
     this.nodes.description = this.make('div', this.CSS.description, {
-      contentEditable: true
-    });
-
-    this.nodes.link = this.make('div', this.CSS.link, {
       contentEditable: true
     });
 
@@ -251,18 +229,6 @@ export default class Personality {
       this.nodes.description.dataset.placeholder = this.config.descriptionPlaceholder;
     }
 
-    if (name) {
-      this.nodes.name.textContent = name;
-    } else {
-      this.nodes.name.dataset.placeholder = this.config.namePlaceholder;
-    }
-
-    if (link) {
-      this.nodes.link.textContent = link;
-    } else {
-      this.nodes.link.dataset.placeholder = this.config.linkPlaceholder;
-    }
-
     this.nodes.photo.addEventListener('click', () => {
       this.uploader.uploadSelectedFile({
         onPreview: () => {
@@ -272,9 +238,7 @@ export default class Personality {
     });
 
     this.nodes.wrapper.appendChild(this.nodes.photo);
-    this.nodes.wrapper.appendChild(this.nodes.name);
     this.nodes.wrapper.appendChild(this.nodes.description);
-    this.nodes.wrapper.appendChild(this.nodes.link);
 
     return this.nodes.wrapper;
   }
