@@ -1,14 +1,14 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
-# Personality Tool 
+# Image and Text Tool 
 
-Personality Tool for the [Editor.js](https://editorjs.io).
+Image and text Tool for the [Editor.js](https://editorjs.io).
 
 ![](https://capella.pics/064afd7b-b67e-482b-b92a-d445b098def2.jpg)
 
 ## Features
 
-This tool allows you to create Personality block in your articles.
+This tool allows you to create Side by side image and text blocks
 
 **Note** Tool requires server-side implementation for image uploading. See [backend response format](#server-format) for more details.
 
@@ -16,32 +16,6 @@ This tool allows you to create Personality block in your articles.
 
 You can get the package using any of these ways.
 
-### Install via NPM
-
-Get the package
-
-```shell
-npm i --save-dev @editorjs/personality
-```
-
-Include module at your application
-
-```javascript
-const Personality = require('@editorjs/personality');
-```
-
-### Download to your project's source dir
-
-1. Upload folder `dist` from repository
-2. Add `dist/bundle.js` file to your page.
-
-### Load from CDN
-
-You can load specific version of package from [jsDelivr CDN](https://cdn.jsdelivr.net/npm/@editorjs/personality@2.0.0).
-
-`https://cdn.jsdelivr.net/npm/@editorjs/personality@2.0.0`
-
-Then require this script on page with Editor.js through the `<script src=""></script>` tag.
 
 ## Usage
 
@@ -53,8 +27,8 @@ var editor = EditorJS({
 
   tools: {
     ...
-    personality: {
-      class: Personality,
+    imageAndText: {
+      class: ImageAndText,
       config: {
         endpoints: {
           byFile: 'http://localhost:8008/uploadFile', // Your backend image file uploader endpoint
@@ -79,9 +53,7 @@ Personality Tool supports these configuration parameters:
 | types | `string` | (default: `image/*`) Mime-types of files that can be [accepted with file selection](https://github.com/codex-team/ajax#accept-string).|
 | additionalRequestData | `object` | Object with any data you want to send with uploading requests |
 | additionalRequestHeaders | `object` | Object with any custom headers which will be added to request. [See example](https://github.com/codex-team/ajax/blob/e5bc2a2391a18574c88b7ecd6508c29974c3e27f/README.md#headers-object) |
-| namePlaceholder | `string` | (default: `Name`) Placeholder for name field |
 | descriptionPlaceholder | `string` | (default: `Description`) Placeholder for description field |
-| linkPlaceholder | `string` | (default: `Link`) Link field placeholder |
 | uploader | `{{uploadByFile: function, uploadByUrl: function}}` | Optional custom uploading methods. See details below. |
 
 Note that if you don't implement your custom uploader methods, the `endpoints` param is required.
@@ -92,18 +64,14 @@ This Tool returns `data` with following format
 
 | Field          | Type      | Description                      |
 | -------------- | --------- | ---------------------------------|
-| name           | `string`  | Person's name                    |
 | description    | `string`  | Person's description             |
-| link           | `string`  | Link to person's website         |
 | photo          | `string`  | Uploaded image url from backend. |
 
 ```json
 {
-    "type" : "personality",
+    "type" : "imageandtext",
     "data" : {
-        "name" : "Elon Musk",
         "description" : "Elon Reeve Musk FRS is a technology entrepreneur, investor, and engineer. He holds South African, Canadian, and U.S. citizenship and is the founder",
-        "link" : "https://twitter.com/elonmusk",
         "photo" : "https://capella.pics/3c0e1b97-bc56-4961-b54e-2a6c2c3260f2.jpg"
     }
 }
@@ -167,15 +135,15 @@ Both methods must return a Promise that resolves with response in format that de
 Example:
 
 ```js
-import Personality from '@editorjs/personality';
+import ImageAndText from 'editorjs-imageandtext';
 
 var editor = EditorJS({
   ...
 
   tools: {
     ...
-    personality: {
-      class: Personality,
+    imageAndText: {
+      class: ImageAndText,
       config: {
         /**
          * Custom uploader
