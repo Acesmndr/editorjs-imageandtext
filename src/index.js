@@ -276,7 +276,7 @@ export default class Personality {
       wrapper.appendChild(el);
     });
     return wrapper;
-  };
+  }
 
   /**
    * Helper method for elements creation
