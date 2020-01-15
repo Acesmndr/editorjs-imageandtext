@@ -74,17 +74,7 @@ export default class Personality {
      * Set saved state
      */
     this._data = {};
-    this.data = Object.assign({ switch: false }, data);
-
-    /**
-     * Available ImageAndText settings
-     */
-    this.settings = [
-      {
-        name: 'switch',
-        icon: `<svg width="17" height="10" viewBox="0 0 17 10" xmlns="http://www.w3.org/2000/svg"><path d="M13.568 5.925H4.056l1.703 1.703a1.125 1.125 0 0 1-1.59 1.591L.962 6.014A1.069 1.069 0 0 1 .588 4.26L4.38.469a1.069 1.069 0 0 1 1.512 1.511L4.084 3.787h9.606l-1.85-1.85a1.069 1.069 0 1 1 1.512-1.51l3.792 3.791a1.069 1.069 0 0 1-.475 1.788L13.514 9.16a1.125 1.125 0 0 1-1.59-1.591l1.644-1.644z"/></svg>`
-      },
-    ];
+    this.data = data;
 
     /**
      * Module for image files uploading
@@ -254,31 +244,6 @@ export default class Personality {
   }
 
   /**
-   * Makes buttons with tunes: add background, add border, stretch image
-   * @return {HTMLDivElement}
-   */
-  renderSettings() {
-    let wrapper = document.createElement('div');
-
-    this.settings.forEach( tune => {
-      let el = document.createElement('div');
-
-      // el.classList.add(this.CSS.settingsButton);
-      el.innerHTML = tune.icon;
-
-      el.addEventListener('click', () => {
-        this._toggleTune(tune.name);
-        // el.classList.toggle(this.CSS.settingsButtonActive);
-      });
-
-      // el.classList.toggle(this.CSS.settingsButtonActive, this.data[tune.name]);
-
-      wrapper.appendChild(el);
-    });
-    return wrapper;
-  }
-
-  /**
    * Helper method for elements creation
    * @param tagName
    * @param classNames
@@ -299,28 +264,5 @@ export default class Personality {
     }
 
     return el;
-  }
-
-  /**
-   * Click on the Settings Button
-   * @private
-   */
-  _toggleTune(tune) {
-    this.data[tune] = !this.data[tune];
-    this._acceptTuneView();
-  }
-
-  /**
-   * Add specified class corresponds with activated tunes
-   * @private
-   */
-  _acceptTuneView() {
-    this.settings.forEach( tune => {
-      this.nodes.imageHolder.classList.toggle(this.CSS.imageHolder + '--' + tune.name.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`), !!this.data[tune.name]);
-
-      if (tune.name === 'stretched') {
-        this.api.blocks.stretchBlock(this.blockIndex, !!this.data.stretched);
-      }
-    });
   }
 }
